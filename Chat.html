@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BCA Chatbot - Holy Cross College</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 90%;
+      max-width: 420px;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #6a11cb;
+      background: linear-gradient(to right, #2575fc, #6a11cb);
+      padding: 15px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chat-box {
+      height: 400px;
+      overflow-y: auto;
+      padding: 15px;
+      background: #f9f9f9;
+    }
+
+    .chat-message {
+      margin: 10px 0;
+    }
+
+    .user {
+      text-align: right;
+      color: #000;
+    }
+
+    .bot {
+      text-align: left;
+      color: #2575fc;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: #6a11cb;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #4b07a7;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">BCA Chatbot - Holy Cross College</div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Ask something..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chatBox");
+
+    const responses = [
+      { keywords: ["bca"], reply: "BCA stands for Bachelor of Computer Applications. It is a 3-year undergraduate course." },
+      { keywords: ["duration"], reply: "The BCA course duration is 3 years, divided into 6 semesters." },
+      { keywords: ["subjects"], reply: "Subjects include Programming, DBMS, Networking, Web Development, Python, Java, AI, and more." },
+      { keywords: ["placement"], reply: "Yes, our college offers good placement opportunities for BCA students." },
+      { keywords: ["hod"], reply: "The Head of the Department is Dr. Juliet Catherine Angel." },
+      { keywords: ["faculty"], reply: "Our department has experienced faculty specialized in various IT fields." },
+      { keywords: ["facilities"], reply: "We offer computer labs, Wi-Fi, smart classrooms, workshops, and seminars." },
+      { keywords: ["internship"], reply: "Internship is encouraged and all students must complete one every year." },
+      { keywords: ["ai"], reply: "Yes, AI and Machine Learning are included as elective subjects." },
+      { keywords: ["aicte"], reply: "Yes, BCA is approved by AICTE and affiliated to Bharathidasan University." },
+      { keywords: ["boys", "male"], reply: "No, boys are not allowed in the BCA department at Holy Cross College." },
+      { keywords: ["fees", "fee structure"], reply: "The fee structure is moderate and may vary yearly. Contact the office for latest details." },
+      { keywords: ["website"], reply: "You can visit the official website at https://hcctrichy.ac.in" },
+      { keywords: ["maths"], reply: "Basic knowledge of Mathematics is helpful but not mandatory for BCA." },
+      { keywords: ["languages", "programming"], reply: "We teach C, C++, Java, Python, HTML, JavaScript, SQL, and more." },
+      { keywords: ["extracurricular", "seminar", "conclave"], reply: "We conduct seminars, conclaves, and useful sessions that support student growth and knowledge." },
+      { keywords: ["timing", "college time"], reply: "College timing for BCA is from 8:30 AM to 1:30 PM." },
+      { keywords: ["coat", "lab dress"], reply: "Students must wear coat suit during lab sessions." },
+      { keywords: ["shawl"], reply: "Shawl must be pinned on both sides as part of proper dress code." },
+      { keywords: ["scope", "opportunity"], reply: "BCA has great scope in IT sector. You can become a developer, tester, analyst, or pursue MCA." },
+      { keywords: ["benefits"], reply: "BCA offers practical skills in computers and opens career opportunities in IT and software." },
+      { keywords: ["eligibility"], reply: "You should have passed 12th standard with Computer Science or Mathematics." },
+      { keywords: ["hostel"], reply: "Yes, hostel facilities are available for girls." },
+      { keywords: ["scholarship"], reply: "Scholarships are available based on eligibility. Please contact the college office." },
+      { keywords: ["attendance"], reply: "Minimum 75% attendance is mandatory to appear for semester exams." },
+      { keywords: ["rules", "regulations"], reply: "College Rules:\n1. No mobile phone usage in classrooms.\n2. Proper dress code must be followed.\n3. ID card should be worn daily.\n4. No latecomers allowed.\n5. Discipline must be maintained at all times." },
+      { keywords: ["dress code"], reply: "Proper dress code must be followed. Shawl should be pinned on both sides." },
+      { keywords: ["mobile"], reply: "Mobile phones are strictly not allowed inside classrooms." },
+      { keywords: ["contact"], reply: "Please contact the college office or visit https://hcctrichy.ac.in for official details." },
+      { keywords: ["swayam"], reply: "SWAYAM is a national online course platform. BCA students can enroll in SWAYAM courses as guided by the college." },
+      { keywords: ["locf"], reply: "Our college follows the LOCF pattern (Learning Outcome Based Curriculum Framework) focusing on knowledge, skills, and values." },
+      { keywords: ["internal", "quiz", "seminar", "exam"], reply: "Each semester includes 2 internal tests, 2 quizzes, and 1 seminar (25 marks total). Final exam carries 75 marks. Total: 100 marks." },
+      { keywords: ["credit", "credits"], reply: "Each course in the BCA program has a specific number of credit points. These contribute to your CGPA every semester." }
+    ];
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const userText = input.value.trim().toLowerCase();
+      if (!userText) return;
+
+      appendMessage(userText, "user");
+      input.value = "";
+
+      let response = "Please visit our college website https://hcctrichy.ac.in or contact the college office for more information.";
+
+      for (let item of responses) {
+        for (let keyword of item.keywords) {
+          if (userText.includes(keyword)) {
+            response = item.reply;
+            break;
+          }
+        }
+        if (response !== "Please visit our college website https://hcctrichy.ac.in or contact the college office for more information.") break;
+      }
+
+      setTimeout(() => {
+        appendMessage(response, "bot");
+      }, 500);
+    }
+
+    function appendMessage(message, sender) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `chat-message ${sender}`;
+      msgDiv.textContent = message;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BCA Chatbot - Holy Cross College</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 90%;
+      max-width: 420px;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #6a11cb;
+      background: linear-gradient(to right, #2575fc, #6a11cb);
+      padding: 15px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chat-box {
+      height: 400px;
+      overflow-y: auto;
+      padding: 15px;
+      background: #f9f9f9;
+    }
+
+    .chat-message {
+      margin: 10px 0;
+    }
+
+    .user {
+      text-align: right;
+      color: #000;
+    }
+
+    .bot {
+      text-align: left;
+      color: #2575fc;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: #6a11cb;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #4b07a7;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">BCA Chatbot - Holy Cross College</div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Ask something..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chatBox");
+
+    const responses = [
+      { keywords: ["bca"], reply: "BCA stands for Bachelor of Computer Applications. It is a 3-year undergraduate course." },
+      { keywords: ["duration"], reply: "The BCA course duration is 3 years, divided into 6 semesters." },
+      { keywords: ["subjects"], reply: "Subjects include Programming, DBMS, Networking, Web Development, Python, Java, AI, and more." },
+      { keywords: ["placement"], reply: "Yes, our college offers good placement opportunities for BCA students." },
+      { keywords: ["hod"], reply: "The Head of the Department is Dr. Juliet Catherine Angel." },
+      { keywords: ["faculty"], reply: "Our department has experienced faculty specialized in various IT fields." },
+      { keywords: ["facilities"], reply: "We offer computer labs, Wi-Fi, smart classrooms, workshops, and seminars." },
+      { keywords: ["internship"], reply: "Internship is encouraged and all students must complete one every year." },
+      { keywords: ["ai"], reply: "Yes, AI and Machine Learning are included as elective subjects." },
+      { keywords: ["aicte"], reply: "Yes, BCA is approved by AICTE and affiliated to Bharathidasan University." },
+      { keywords: ["boys", "male"], reply: "No, boys are not allowed in the BCA department at Holy Cross College." },
+      { keywords: ["fees", "fee structure"], reply: "The fee structure is moderate and may vary yearly. Contact the office for latest details." },
+      { keywords: ["website"], reply: "You can visit the official website at https://hcctrichy.ac.in" },
+      { keywords: ["maths"], reply: "Basic knowledge of Mathematics is helpful but not mandatory for BCA." },
+      { keywords: ["languages", "programming"], reply: "We teach C, C++, Java, Python, HTML, JavaScript, SQL, and more." },
+      { keywords: ["extracurricular", "seminar", "conclave"], reply: "We conduct seminars, conclaves, and useful sessions that support student growth and knowledge." },
+      { keywords: ["timing", "college time"], reply: "College timing for BCA is from 8:30 AM to 1:30 PM." },
+      { keywords: ["coat", "lab dress"], reply: "Students must wear coat suit during lab sessions." },
+      { keywords: ["shawl"], reply: "Shawl must be pinned on both sides as part of proper dress code." },
+      { keywords: ["scope", "opportunity"], reply: "BCA has great scope in IT sector. You can become a developer, tester, analyst, or pursue MCA." },
+      { keywords: ["benefits"], reply: "BCA offers practical skills in computers and opens career opportunities in IT and software." },
+      { keywords: ["eligibility"], reply: "You should have passed 12th standard with Computer Science or Mathematics." },
+      { keywords: ["hostel"], reply: "Yes, hostel facilities are available for girls." },
+      { keywords: ["scholarship"], reply: "Scholarships are available based on eligibility. Please contact the college office." },
+      { keywords: ["attendance"], reply: "Minimum 75% attendance is mandatory to appear for semester exams." },
+      { keywords: ["rules", "regulations"], reply: "College Rules:\n1. No mobile phone usage in classrooms.\n2. Proper dress code must be followed.\n3. ID card should be worn daily.\n4. No latecomers allowed.\n5. Discipline must be maintained at all times." },
+      { keywords: ["dress code"], reply: "Proper dress code must be followed. Shawl should be pinned on both sides." },
+      { keywords: ["mobile"], reply: "Mobile phones are strictly not allowed inside classrooms." },
+      { keywords: ["contact"], reply: "Please contact the college office or visit https://hcctrichy.ac.in for official details." },
+      { keywords: ["swayam"], reply: "SWAYAM is a national online course platform. BCA students can enroll in SWAYAM courses as guided by the college." },
+      { keywords: ["locf"], reply: "Our college follows the LOCF pattern (Learning Outcome Based Curriculum Framework) focusing on knowledge, skills, and values." },
+      { keywords: ["internal", "quiz", "seminar", "exam"], reply: "Each semester includes 2 internal tests, 2 quizzes, and 1 seminar (25 marks total). Final exam carries 75 marks. Total: 100 marks." },
+      { keywords: ["credit", "credits"], reply: "Each course in the BCA program has a specific number of credit points. These contribute to your CGPA every semester." }
+    ];
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const userText = input.value.trim().toLowerCase();
+      if (!userText) return;
+
+      appendMessage(userText, "user");
+      input.value = "";
+
+      let response = "Please visit our college website https://hcctrichy.ac.in or contact the college office for more information.";
+
+      for (let item of responses) {
+        for (let keyword of item.keywords) {
+          if (userText.includes(keyword)) {
+            response = item.reply;
+            break;
+          }
+        }
+        if (response !== "Please visit our college website https://hcctrichy.ac.in or contact the college office for more information.") break;
+      }
+
+      setTimeout(() => {
+        appendMessage(response, "bot");
+      }, 500);
+    }
+
+    function appendMessage(message, sender) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `chat-message ${sender}`;
+      msgDiv.textContent = message;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
