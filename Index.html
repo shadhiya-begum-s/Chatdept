@@ -196,7 +196,7 @@ Related questions.`
     function appendMessage(message, sender) {
       const msgDiv = document.createElement("div");
       msgDiv.className = `chat-message ${sender}`;
-      msgDiv.textContent = message;
+      msgDiv.innerHTML = message;
       chatBox.appendChild(msgDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
