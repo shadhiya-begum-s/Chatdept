@@ -40,13 +40,37 @@
       margin: 10px 0;
     }
     .user {
-      text-align: right;
-      color: #000;
-    }
-    .bot {
-      text-align: left;
-      color: #2575fc;
-    }
+  background: linear-gradient(to right, #4facfe, #00f2fe); /* gradient blue */
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 70%;      /* box width */
+  word-wrap: break-word;
+  text-align: left;     /* text inside box */
+  align-self: flex-end; /* push to right */
+}
+
+   .bot {
+  background: linear-gradient(to right, #e0c3fc, #8ec5fc); /* gradient purple */
+  color: #222;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 70%;      /* box width */
+  word-wrap: break-word;
+  text-align: left;     /* text inside box */
+  align-self: flex-start; /* push to left */
+}
+
+/* Make chat-box a flex container for vertical stacking with alignment */
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* spacing between messages */
+  height: 400px;
+  overflow-y: auto;
+  padding: 15px;
+  background: #f9f9f9;
+      }
     .chat-input {
       display: flex;
       border-top: 1px solid #ddd;
