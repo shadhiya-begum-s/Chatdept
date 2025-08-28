@@ -3,33 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BCA Chatbot - Holy Cross College</title>
+  <title>BCA Chatbot + Motivation</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to right, #fbc2eb, #a6c1ee);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      padding: 20px 0;
     }
+
+    /* Chatbot styles */
     .chat-container {
-      width: 90%;
-      max-width: 420px;
+      width: 95%;
+      max-width: 480px;
       background-color: #fff;
       border-radius: 20px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
     }
+
     .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       background: linear-gradient(to right, #2575fc, #6a11cb);
-      padding: 15px;
+      padding: 10px 15px;
       color: white;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
-      text-align: center;
     }
+
+    .chat-header img {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
     .chat-box {
       display: flex;
       flex-direction: column;
@@ -39,33 +55,41 @@
       padding: 15px;
       background: #f9f9f9;
     }
+
     .chat-message {
       margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 20px;
+      max-width: 70%;
+      word-wrap: break-word;
     }
+
     .user {
       background: linear-gradient(to right, #4facfe, #00f2fe);
       color: #fff;
-      padding: 10px 15px;
-      border-radius: 20px;
-      max-width: 70%;
-      word-wrap: break-word;
-      text-align: left;
       align-self: flex-end;
     }
+
     .bot {
       background: linear-gradient(to right, #e0c3fc, #8ec5fc);
       color: #222;
-      padding: 10px 15px;
-      border-radius: 20px;
-      max-width: 70%;
-      word-wrap: break-word;
-      text-align: left;
       align-self: flex-start;
     }
+
+    .timestamp {
+      font-size: 11px;
+      color: #555;
+      display: block;
+      text-align: right;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
     .chat-input {
       display: flex;
       border-top: 1px solid #ddd;
     }
+
     input {
       flex: 1;
       padding: 15px;
@@ -73,6 +97,7 @@
       outline: none;
       font-size: 16px;
     }
+
     button {
       background: #6a11cb;
       color: white;
@@ -81,18 +106,96 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     button:hover {
       background: #4b07a7;
     }
+
     a {
       color: #2575fc;
       text-decoration: underline;
     }
+
+    /* Animation (Motivational stairs) */
+    .stairs-container {
+      width: 95%;
+      max-width: 480px;
+      height: 300px;
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .step {
+      position: absolute;
+      width: 90px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-weight: bold;
+      border-radius: 4px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .step1 { bottom: 0; left: 0; background:#ffe0b2; }
+    .step2 { bottom: 60px; left: 90px; background:#cfd8dc; }
+    .step3 { bottom: 120px; left: 180px; background:#c8e6c9; }
+    .step4 { bottom: 180px; left: 270px; background:#d1c4e9; }
+
+    .girl {
+      position: absolute;
+      width: 60px;
+      height: 80px;
+      background: url('https://i.postimg.cc/Qx35yh7Y/images.png') no-repeat center/cover;
+      bottom: 0;
+      left: 20px;
+      animation: climb 12s forwards;
+    }
+
+    @keyframes climb {
+      0%   { bottom: 0; left: 20px; }          
+      25%  { bottom: 60px; left: 110px; }     
+      50%  { bottom: 120px; left: 200px; }    
+      75%  { bottom: 180px; left: 290px; }    
+      100% { bottom: 180px; left: 290px; }    
+    }
+
+    .degree {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: url('https://i.postimg.cc/BnWqgn1t/360-F-586830989-8c-Zs5zl7oj-I7t-Kgv-TRibds-F0ajh3-OGqf.png') no-repeat center/contain;
+      bottom: 240px;
+      left: 340px;
+      opacity: 0;
+      animation: showDegree 12s forwards;
+    }
+
+    @keyframes showDegree {
+      0%, 85% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .quotes {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #2e7d32;
+      text-align: center;
+      padding: 0 10px;
+      min-height: 30px;
+      opacity: 0;
+      transition: opacity 1s;
+    }
   </style>
 </head>
 <body>
+  <!-- Chatbot -->
   <div class="chat-container">
-    <div class="chat-header">BCA Chatbot - Holy Cross College</div>
+    <div class="chat-header">
+      <img src="https://i.postimg.cc/YCsCJB0m/Screenshot-2025-07-08-16-09-09-74-680d03679600f7af0b4c700c6b270fe7-removebg-preview.png" alt="College Logo">
+      BCA Chatbot - Holy Cross College
+      <img src="https://i.postimg.cc/gkBp0qWC/IMG-20240305-WA0000-removebg-preview.png" alt="Dept Logo">
+    </div>
     <div class="chat-box" id="chatBox"></div>
     <div class="chat-input">
       <input type="text" id="userInput" placeholder="Ask something..." />
@@ -100,8 +203,33 @@
     </div>
   </div>
 
+  <!-- Motivational stairs animation -->
+  <div class="stairs-container">
+    <div class="step step1">Fear</div>
+    <div class="step step2">Failure</div>
+    <div class="step step3">Hard Work</div>
+    <div class="step step4">Success</div>
+
+    <div class="girl"></div>
+    <div class="degree"></div>
+  </div>
+  <div class="quotes" id="quoteBox">Success is yours! 🌟</div>
+
   <script>
     const chatBox = document.getElementById("chatBox");
+    const input = document.getElementById("userInput");
+
+    // Listen for Enter key
+    input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Initial messages
+    appendMessage("Welcome to BCA Chatbot!", "bot");
+    appendMessage("Say 'Hi' to know available details.", "bot");
 
     const responses = [
       { keywords: ["hod","head of the department"], reply: "The Head of the Department is Dr. Juliet Catherine Angel." },
@@ -137,88 +265,107 @@
       { keywords: ["credit", "credits","credit points"], reply: "Each course in the BCA program has a specific number of credit points. These contribute to your CGPA every semester." },
       { keywords: ["hcc", "holy cross college", "about college"], reply: "Holy Cross College (Autonomous), Tiruchirapalli, is a prestigious institution for women. It offers a wide range of undergraduate and postgraduate programs, recognized for academic excellence, discipline, and holistic education. Visit <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> for more." },
       { keywords: ["bca"], reply: "BCA stands for Bachelor of Computer Applications. It is a 3-year undergraduate course." },
-      // Added library and internet responses
       { keywords: ["library"], reply: "Our college library is well-stocked with books, journals, and reference materials. It also has a good internet connection for research and online resources." },
-      { keywords: ["internet connection","library internet"], reply: "Yes, both the labs and library have high-speed internet connectivity for student use." },
+      { keywords: ["internet connection","library internet","internet"], reply: "Yes, both the labs and library have high-speed internet connectivity for student use." },
       { keywords: ["hi","hello","hai","hii"], reply: `Welcome to chatbot. You can ask:<br>
-- BCA<br>
-- Duration<br>
-- Subjects<br>
-- Placement<br>
-- Faculties<br>
-- Facilities<br>
-- Internship<br>
-- AICTE<br>
-- Fee Structure<br>
-- College Website<br>
-- Extracurricular<br>
-- Seminar<br>
-- Conclave<br>
-- College Time<br>
-- Coat Suit<br>
-- Scope<br>
-- Opportunity<br>
-- Benefits<br>
-- Eligibility<br>
-- Hostel<br>
--Library<br>
--Internet Connection<br>
-- Scholarship<br>
-- Attendance<br>
-- Rules and Regulations<br>
-- Dress Code<br>
-- Mobile<br>
-- Contact<br>
-- Swayam<br>
-- LOCF<br>
-- Internal<br>
-- Quiz<br>
-- Exam<br>
-- Credit Points<br>
+- bca<br>
+- duration<br>
+- subjects<br>
+- placement<br>
+- faculty<br>
+- facilities<br>
+- internship<br>
+- aicte<br>
+- fee structure<br>
+- college website<br>
+- library<br>
+- internet connection<br>
+- extracurricular<br>
+- seminar<br>
+- conclave<br>
+- college time<br>
+- coat suit<br>
+- scope<br>
+- opportunity<br>
+- benefits<br>
+- eligibility<br>
+- hostel<br>
+- scholarship<br>
+- attendance<br>
+- rules and regulations<br>
+- dress code<br>
+- mobile<br>
+- contact<br>
+- swayam<br>
+- locf<br>
+- internal<br>
+- quiz<br>
+- exam<br>
+- credit points<br>
 Related questions.`
       }
     ];
 
     function sendMessage() {
-      const input = document.getElementById("userInput");
       const userText = input.value.trim().toLowerCase();
       if (!userText) return;
 
       appendMessage(userText, "user");
       input.value = "";
 
-      let response = "Please visit our college website <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> or contact the college office for more information.";
-      let found = false;
+      let response = "I am not aware of it. Please visit the college website <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> or contact the college office for more information.";
 
       for (let item of responses) {
-        let matchedAll = item.keywords.every(keyword => userText.includes(keyword));
-        let matchedAny = item.keywords.some(keyword => userText.includes(keyword));
-
-        if (matchedAll) {
+        if (item.keywords.some(keyword => userText.includes(keyword))) {
           response = item.reply;
-          found = true;
-          break;
-        }
-
-        if (!found && matchedAny) {
-          response = item.reply;
-          found = true;
           break;
         }
       }
 
-      setTimeout(() => {
-        appendMessage(response, "bot");
-      }, 500);
+      setTimeout(() => appendMessage(response, "bot"), 500);
     }
 
     function appendMessage(message, sender) {
       const msgDiv = document.createElement("div");
       msgDiv.className = `chat-message ${sender}`;
-      msgDiv.innerHTML = message;
+
+      // Get current time in hh:mm AM/PM
+      const now = new Date();
+      let hours = now.getHours();
+      let minutes = now.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+      const timeString = `${hours}:${minutes} ${ampm}`;
+
+      msgDiv.innerHTML = `
+        <div>${message}</div>
+        <span class="timestamp">${timeString}</span>
+      `;
+
       chatBox.appendChild(msgDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    /* Motivational quotes */
+    const quotes = [
+      "Every step counts 👣",
+      "Don’t fear failure, learn from it ❌",
+      "Hard work is the ladder 🪜",
+      "Believe in yourself ✨",
+      "Small progress is still progress 📈",
+      "Dreams don’t work unless you do 💪",
+      "Success is yours! 🎓"
+    ];
+    let i = 0;
+    const quoteBox = document.getElementById("quoteBox");
+    setTimeout(() => {
+      const interval = setInterval(() => {
+        quoteBox.innerText = quotes[i];
+        quoteBox.style.opacity = 1;
+        i++;
+        if (i >= quotes.length) clearInterval(interval);
+      }, 3000);
+    }, 2000); 
   </script>
 </body>
 </html>
