@@ -1,380 +1,417 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BCA Chatbot </title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 15px 5px;
-    }
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+  <title>BCA Chatbot </title>  
+  <style>  
+    body {  
+      margin: 0;  
+      font-family: 'Segoe UI', sans-serif;  
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);  
+      display: flex;  
+      flex-direction: column;  
+      align-items: center;  
+      padding: 15px 5px;  
+    }  /* Chatbot styles */  
+.chat-container {  
+  width: 100%;  
+  max-width: 480px;  
+  background-color: #fff;  
+  border-radius: 20px;  
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);  
+  overflow: hidden;  
+  display: flex;  
+  flex-direction: column;  
+  margin-bottom: 20px;  
+}  
 
-    /* Chatbot styles */
-    .chat-container {
-      width: 100%;
-      max-width: 480px;
-      background-color: #fff;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
-    }
+.chat-header {  
+  display: flex;  
+  align-items: center;  
+  justify-content: space-between;  
+  background: linear-gradient(to right, #2575fc, #6a11cb);  
+  padding: 10px;  
+  color: white;  
+  font-size: 16px;  
+  font-weight: bold;  
+}  
 
-    .chat-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(to right, #2575fc, #6a11cb);
-      padding: 10px;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
+.chat-header img {  
+  height: 35px;  
+  width: 35px;  
+  object-fit: contain;  
+  border-radius: 5px;  
+}  
 
-    .chat-header img {
-      height: 35px;
-      width: 35px;
-      object-fit: contain;
-      border-radius: 5px;
-    }
+/* --- NEW BUTTON BAR --- */  
+.chat-buttons {  
+  display: flex;  
+  justify-content: space-around;  
+  flex-wrap: wrap;  
+  padding: 8px;  
+  background: #f1f1f1;  
+  border-bottom: 1px solid #ddd;  
+}  
 
-    .chat-box {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      height: 350px;
-      overflow-y: auto;
-      padding: 12px;
-      background: #f9f9f9;
-    }
+.chat-buttons button {  
+  background: #6a11cb;  
+  border: none;  
+  color: white;  
+  padding: 6px 10px;  
+  border-radius: 12px;  
+  cursor: pointer;  
+  font-size: 13px;  
+  margin: 4px;  
+  transition: background 0.3s;  
+}  
 
-    .chat-message {
-      margin: 8px 0;
-      padding: 8px 12px;
-      border-radius: 20px;
-      max-width: 75%;
-      word-wrap: break-word;
-      font-size: 14px;
-    }
+.chat-buttons button:hover {  
+  background: #2575fc;  
+}  
 
-    .user {
-      background: linear-gradient(to right, #4facfe, #00f2fe);
-      color: #fff;
-      align-self: flex-end;
-    }
+.chat-box {  
+  display: flex;  
+  flex-direction: column;  
+  gap: 10px;  
+  height: 350px;  
+  overflow-y: auto;  
+  padding: 12px;  
+  background: #f9f9f9;  
+}  
 
-    .bot {
-      background: linear-gradient(to right, #e0c3fc, #8ec5fc);
-      color: #222;
-      align-self: flex-start;
-    }
+.chat-message {  
+  margin: 8px 0;  
+  padding: 8px 12px;  
+  border-radius: 20px;  
+  max-width: 75%;  
+  word-wrap: break-word;  
+  font-size: 14px;  
+}  
 
-    .timestamp {
-      font-size: 10px;
-      color: #555;
-      display: block;
-      text-align: right;
-      margin-top: 3px;
-      opacity: 0.7;
-    }
+.user {  
+  background: linear-gradient(to right, #4facfe, #00f2fe);  
+  color: #fff;  
+  align-self: flex-end;  
+}  
 
-    .chat-input {
-      display: flex;
-      border-top: 1px solid #ddd;
-    }
+.bot {  
+  background: linear-gradient(to right, #e0c3fc, #8ec5fc);  
+  color: #222;  
+  align-self: flex-start;  
+}  
 
-    input {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
+.timestamp {  
+  font-size: 10px;  
+  color: #555;  
+  display: block;  
+  text-align: right;  
+  margin-top: 3px;  
+  opacity: 0.7;  
+}  
 
-    button {
-      background: #6a11cb;
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      cursor: pointer;
-      font-size: 14px;
-    }
+.chat-input {  
+  display: flex;  
+  border-top: 1px solid #ddd;  
+}  
 
-    button:hover {
-      background: #4b07a7;
-    }
+input {  
+  flex: 1;  
+  padding: 12px;  
+  border: none;  
+  outline: none;  
+  font-size: 14px;  
+}  
 
-    a {
-      color: #2575fc;
-      text-decoration: underline;
-    }
+button {  
+  background: #6a11cb;  
+  color: white;  
+  border: none;  
+  padding: 12px 16px;  
+  cursor: pointer;  
+  font-size: 14px;  
+}  
 
-    /* Animation (Motivational stairs) */
-    .stairs-container {
-      width: 100%;
-      max-width: 480px;
-      height: 300px;
-      position: relative;
-      margin-bottom: 20px;
-    }
+button:hover {  
+  background: #4b07a7;  
+}  
 
-    .step {
-      position: absolute;
-      width: 80px;
-      height: 45px;
-      text-align: center;
-      line-height: 45px;
-      font-weight: bold;
-      border-radius: 4px;
-      font-size: 12px;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-    }
+a {  
+  color: #2575fc;  
+  text-decoration: underline;  
+}  
 
-    .step1 { bottom: 0; left: 0; background:#ffe0b2; }
-    .step2 { bottom: 55px; left: 85px; background:#cfd8dc; }
-    .step3 { bottom: 110px; left: 170px; background:#c8e6c9; }
-    .step4 { bottom: 165px; left: 255px; background:#d1c4e9; }
+/* Animation (Motivational stairs) */  
+.stairs-container {  
+  width: 100%;  
+  max-width: 480px;  
+  height: 300px;  
+  position: relative;  
+  margin-bottom: 20px;  
+}  
 
-    .girl {
-      position: absolute;
-      width: 50px;
-      height: 70px;
-      background: url('https://i.postimg.cc/zfd03B1N/images.png') no-repeat center/cover;
-      bottom: 0;
-      left: 15px;
-      animation: climb 12s forwards;
-    }
+.step {  
+  position: absolute;  
+  width: 80px;  
+  height: 45px;  
+  text-align: center;  
+  line-height: 45px;  
+  font-weight: bold;  
+  border-radius: 4px;  
+  font-size: 12px;  
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);  
+}  
 
-    @keyframes climb {
-      0%   { bottom: 0; left: 15px; }          
-      25%  { bottom: 55px; left: 100px; }     
-      50%  { bottom: 110px; left: 185px; }    
-      75%  { bottom: 165px; left: 270px; }    
-      100% { bottom: 165px; left: 270px; }    
-    }
+.step1 { bottom: 0; left: 0; background:#ffe0b2; }  
+.step2 { bottom: 55px; left: 85px; background:#cfd8dc; }  
+.step3 { bottom: 110px; left: 170px; background:#c8e6c9; }  
+.step4 { bottom: 165px; left: 255px; background:#d1c4e9; }  
 
-    .degree {
-      position: absolute;
-      width: 55px;
-      height: 55px;
-      background: url('https://i.postimg.cc/BnWqgn1t/360-F-586830989-8c-Zs5zl7oj-I7t-Kgv-TRibds-F0ajh3-OGqf.png') no-repeat center/contain;
-      bottom: 225px;
-      left: 320px;
-      opacity: 0;
-      animation: showDegree 12s forwards;
-    }
+.girl {  
+  position: absolute;  
+  width: 50px;  
+  height: 70px;  
+  background: url('https://i.postimg.cc/zfd03B1N/images.png') no-repeat center/cover;  
+  bottom: 0;  
+  left: 15px;  
+  animation: climb 12s forwards;  
+}  
 
-    @keyframes showDegree {
-      0%, 85% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+@keyframes climb {  
+  0%   { bottom: 0; left: 15px; }            
+  25%  { bottom: 55px; left: 100px; }       
+  50%  { bottom: 110px; left: 185px; }      
+  75%  { bottom: 165px; left: 270px; }      
+  100% { bottom: 165px; left: 270px; }      
+}  
 
-    /* Quotes moved to top of animation */
-    .quotes {
-  position: absolute;
-  top: 5px;   /* ⬅ lowered from -35px to inside the container */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  font-weight: bold;
-  color: #2e7d32;
-  text-align: center;
-  width: 100%;
-  padding: 0 5px;
-  opacity: 0;
-  transition: opacity 1s;
+.degree {  
+  position: absolute;  
+  width: 55px;  
+  height: 55px;  
+  background: url('https://i.postimg.cc/BnWqgn1t/360-F-586830989-8c-Zs5zl7oj-I7t-Kgv-TRibds-F0ajh3-OGqf.png') no-repeat center/contain;  
+  bottom: 225px;  
+  left: 320px;  
+  opacity: 0;  
+  animation: showDegree 12s forwards;  
+}  
+
+@keyframes showDegree {  
+  0%, 85% { opacity: 0; }  
+  100% { opacity: 1; }  
+}  
+
+/* Quotes moved to top of animation */  
+.quotes {  
+  position: absolute;  
+  top: 5px;  
+  left: 50%;  
+  transform: translateX(-50%);  
+  font-size: 14px;  
+  font-weight: bold;  
+  color: #2e7d32;  
+  text-align: center;  
+  width: 100%;  
+  padding: 0 5px;  
+  opacity: 0;  
+  transition: opacity 1s;  
 }
-  </style>
-</head>
-<body>
-  <!-- Chatbot -->
-  <div class="chat-container">
-    <div class="chat-header">
-      <img src="https://i.postimg.cc/YCsCJB0m/Screenshot-2025-07-08-16-09-09-74-680d03679600f7af0b4c700c6b270fe7-removebg-preview.png" alt="College Logo">
-      BCA Chatbot - Holy Cross College
-      <img src="https://i.postimg.cc/gkBp0qWC/IMG-20240305-WA0000-removebg-preview.png" alt="Dept Logo">
-    </div>
-    <div class="chat-box" id="chatBox"></div>
-    <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Ask something..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
-  </div>
 
-  <!-- Motivational stairs animation -->
-  <div class="stairs-container">
-    <!-- Quotes now at top of animation -->
-    <div class="quotes" id="quoteBox">Success is yours! 🌟</div>
+  </style>  
+</head>  
+<body>  
+  <!-- Chatbot -->  
+  <div class="chat-container">  
+    <div class="chat-header">  
+      <img src="https://i.postimg.cc/YCsCJB0m/Screenshot-2025-07-08-16-09-09-74-680d03679600f7af0b4c700c6b270fe7-removebg-preview.png" alt="College Logo">  
+      BCA Chatbot - Holy Cross College  
+      <img src="https://i.postimg.cc/gkBp0qWC/IMG-20240305-WA0000-removebg-preview.png" alt="Dept Logo">  
+    </div>  <!-- NEW QUICK BUTTONS -->  
+<div class="chat-buttons">  
+  <button onclick="quickReply('duration')">Duration</button>  
+  <button onclick="quickReply('scholarship')">Scholarship</button>  
+  <button onclick="quickReply('exam')">Exam</button>  
+  <button onclick="quickReply('placement')">Placement</button>  
+</div>  
 
-    <div class="step step1">Fear</div>
-    <div class="step step2">Failure</div>
-    <div class="step step3">Hard Work</div>
-    <div class="step step4">Success</div>
+<div class="chat-box" id="chatBox"></div>  
+<div class="chat-input">  
+  <input type="text" id="userInput" placeholder="Ask something..." />  
+  <button onclick="sendMessage()">Send</button>  
+</div>
 
-    <div class="girl"></div>
-    <div class="degree"></div>
-  </div>
+  </div>    <!-- Motivational stairs animation -->    <div class="stairs-container">  
+    <!-- Quotes now at top of animation -->  
+    <div class="quotes" id="quoteBox">Success is yours! 🌟</div>  <div class="step step1">Fear</div>  
+<div class="step step2">Failure</div>  
+<div class="step step3">Hard Work</div>  
+<div class="step step4">Success</div>  
 
-  <script>
-    const chatBox = document.getElementById("chatBox");
-    const input = document.getElementById("userInput");
+<div class="girl"></div>  
+<div class="degree"></div>
 
-    // Listen for Enter key
-    input.addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        sendMessage();
-      }
-    });
-
-    // Initial messages
-    appendMessage("Welcome to BCA Chatbot!", "bot");
-    appendMessage("Say 'Hi' to know available details.", "bot");
-
-    const responses = [
-      { keywords: ["hod","head of the department"], reply: "The Head of the Department is Dr. Juliet Catherine Angel." },
-      { keywords: ["duration"], reply: "The BCA course duration is 3 years, divided into 6 semesters." },
-      { keywords: ["subjects","subject"], reply: "Subjects include Programming, DBMS, Networking, Web Development, Python, Java, and more." },
-      { keywords: ["placement"], reply: "Yes, our college offers good placement opportunities for BCA students." },
-      { keywords: ["faculty","faculties"], reply: "Our department has experienced faculty specialized in various IT fields." },
-      { keywords: ["facilities"], reply: "We offer computer labs, Wi-Fi, smart classrooms, workshops, and seminars." },
-      { keywords: ["internship"], reply: "Internship is encouraged and all students must complete one every year." },
-      { keywords: ["aicte"], reply: "AICTE means All India Council for Technical Education. Yes, BCA is approved by AICTE and affiliated to Bharathidasan University." },
-      { keywords: ["boys", "male"], reply: "No, boys are not allowed in the BCA department at Holy Cross College." },
-      { keywords: ["fees", "fee structure"], reply: "The fee structure is moderate and may vary yearly. Contact the office for latest details." },
-      { keywords: ["website","college website"], reply: "You can visit the official website at <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a>." },
-      { keywords: ["maths","mathematics"], reply: "Basic knowledge of Mathematics is helpful but not mandatory for BCA." },
-      { keywords: ["languages", "programming"], reply: "We teach C, C++, Java, Python, HTML, JavaScript, SQL, and more." },
-      { keywords: ["extracurricular", "seminar","event", "conclave"], reply: "We conduct seminars, conclaves, and useful sessions that support student growth and knowledge." },
-      { keywords: ["timing", "college time"], reply: "College timing for BCA is from 8:30 AM to 1:30 PM." },
-      { keywords: ["coat", "lab dress","coat suit"], reply: "Students must wear coat suit during lab sessions." },
-      { keywords: ["shawl"], reply: "Shawl must be pinned on both sides as part of proper dress code." },
-      { keywords: ["scope", "opportunity"], reply: "BCA has great scope in IT sector. You can become a developer, tester, analyst, or pursue MCA." },
-      { keywords: ["benefits"], reply: "BCA offers practical skills in computers and opens career opportunities in IT and software." },
-      { keywords: ["eligibility"], reply: "You should have passed 12th standard with Computer Science or Mathematics." },
-      { keywords: ["hostel"], reply: "Yes, hostel facilities are available for girls." },
-      { keywords: ["scholarship"], reply: "Scholarships are available based on eligibility. Please contact the college office." },
-      { keywords: ["attendance"], reply: "Minimum 75% attendance is mandatory to appear for semester exams." },
-      { keywords: ["rules", "regulations"], reply: "College Rules:<br>1. No mobile phone usage in classrooms.<br>2. Proper dress code must be followed.<br>3. ID card should be worn daily.<br>4. No latecomers allowed.<br>5. Discipline must be maintained at all times." },
-      { keywords: ["dress code"], reply: "Proper dress code must be followed. Shawl should be pinned on both sides." },
-      { keywords: ["mobile","phone"], reply: "Mobile phones are strictly not allowed inside classrooms." },
-      { keywords: ["contact"], reply: "Please contact the college office or visit <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> for official details." },
-      { keywords: ["swayam"], reply: "SWAYAM is a national online course platform. BCA students can enroll in SWAYAM courses as guided by the college." },
-      { keywords: ["locf"], reply: "Our college follows the LOCF pattern (Learning Outcome Based Curriculum Framework) focusing on knowledge, skills, and values." },
-      { keywords: ["internal", "quiz", "exam","semester"], reply: "Each semester includes 2 internal tests, 2 quizzes, and 1 seminar (25 marks total). Final exam carries 75 marks. Total: 100 marks." },
-      { keywords: ["credit", "credits","credit points"], reply: "Each course in the BCA program has a specific number of credit points. These contribute to your CGPA every semester." },
-      { keywords: ["hcc", "holy cross college", "about college"], reply: "Holy Cross College (Autonomous), Tiruchirapalli, is a prestigious institution for women. It offers a wide range of undergraduate and postgraduate programs, recognized for academic excellence, discipline, and holistic education. Visit <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> for more." },
-      { keywords: ["bca"], reply: "BCA stands for Bachelor of Computer Applications. It is a 3-year undergraduate course." },
-      { keywords: ["library"], reply: "Our college library is well-stocked with books, journals, and reference materials. It also has a good internet connection for research and online resources." },
-      { keywords: ["internet connection","library internet","internet"], reply: "Yes, both the labs and library have high-speed internet connectivity for student use." },
-      { keywords: ["ok","okay","tq","thank you"], reply: "You're Welcome.Iam here to assist you." },
-      { keywords: ["hi","hello","hai","hii"], reply: `Welcome to chatbot. You can ask:<br>
-- bca<br>
-- duration<br>
-- subjects<br>
-- placement<br>
-- faculty<br>
-- facilities<br>
-- internship<br>
-- aicte<br>
-- fee structure<br>
-- college website<br>
-- library<br>
-- internet connection<br>
-- extracurricular<br>
-- seminar<br>
-- conclave<br>
-- college time<br>
-- coat suit<br>
-- scope<br>
-- opportunity<br>
-- benefits<br>
-- eligibility<br>
-- hostel<br>
-- scholarship<br>
-- attendance<br>
-- rules and regulations<br>
-- dress code<br>
-- mobile<br>
-- contact<br>
-- swayam<br>
-- locf<br>
-- internal<br>
-- quiz<br>
-- exam<br>
-- credit points<br>
-Related questions.`
-      }
-    ];
-
-    function sendMessage() {
-      const userText = input.value.trim().toLowerCase();
-      if (!userText) return;
-
-      appendMessage(userText, "user");
-      input.value = "";
-
-      let response = "I am not aware of it. Please visit the college website <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> or contact the college office for more information.";
-
-      for (let item of responses) {
-        if (item.keywords.some(keyword => userText.includes(keyword))) {
-          response = item.reply;
-          break;
-        }
-      }
-
-      setTimeout(() => appendMessage(response, "bot"), 500);
-    }
-
-    function appendMessage(message, sender) {
-      const msgDiv = document.createElement("div");
-      msgDiv.className = `chat-message ${sender}`;
-
-      // Get current time in hh:mm AM/PM
-      const now = new Date();
-      let hours = now.getHours();
-      let minutes = now.getMinutes().toString().padStart(2, '0');
-      const ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12 || 12;
-      const timeString = `${hours}:${minutes} ${ampm}`;
-
-      msgDiv.innerHTML = `
-        <div>${message}</div>
-        <span class="timestamp">${timeString}</span>
-      `;
-
-      chatBox.appendChild(msgDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    /* Motivational quotes */
-    const quotes = [
-      "Every step counts 👣",
-      "Don’t fear failure, learn from it ❌",
-      "Hard work is the ladder 🪜",
-      "Believe in yourself ✨",
-      "Small progress is still progress 📈",
-      "Dreams don’t work unless you do 💪",
-      "Success is yours! 🎓"
-    ];
-    let i = 0;
-    const quoteBox = document.getElementById("quoteBox");
-    setTimeout(() => {
-      const interval = setInterval(() => {
-        quoteBox.innerText = quotes[i];
-        quoteBox.style.opacity = 1;
-        i++;
-        if (i >= quotes.length) clearInterval(interval);
-      }, 3000);
-    }, 2000); 
-  </script>
-</body>
+  </div>    <script>  
+    const chatBox = document.getElementById("chatBox");  
+    const input = document.getElementById("userInput");  
+  
+    // Listen for Enter key  
+    input.addEventListener("keypress", function(event) {  
+      if (event.key === "Enter") {  
+        event.preventDefault();  
+        sendMessage();  
+      }  
+    });  
+  
+    // Initial messages  
+    appendMessage("Welcome to BCA Chatbot!", "bot");  
+    appendMessage("Say 'Hi' to know available details.", "bot");  
+  
+    const responses = [  
+      { keywords: ["hod","head of the department"], reply: "The Head of the Department is Dr. Juliet Catherine Angel." },  
+      { keywords: ["duration"], reply: "The BCA course duration is 3 years, divided into 6 semesters." },  
+      { keywords: ["subjects","subject"], reply: "Subjects include Programming, DBMS, Networking, Web Development, Python, Java, and more." },  
+      { keywords: ["placement"], reply: "Yes, our college offers good placement opportunities for BCA students." },  
+      { keywords: ["faculty","faculties"], reply: "Our department has experienced faculty specialized in various IT fields." },  
+      { keywords: ["facilities"], reply: "We offer computer labs, Wi-Fi, smart classrooms, workshops, and seminars." },  
+      { keywords: ["internship"], reply: "Internship is encouraged and all students must complete one every year." },  
+      { keywords: ["aicte"], reply: "AICTE means All India Council for Technical Education. Yes, BCA is approved by AICTE and affiliated to Bharathidasan University." },  
+      { keywords: ["boys", "male"], reply: "No, boys are not allowed in the BCA department at Holy Cross College." },  
+      { keywords: ["fees", "fee structure"], reply: "The fee structure is moderate and may vary yearly. Contact the office for latest details." },  
+      { keywords: ["website","college website"], reply: "You can visit the official website at <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a>." },  
+      { keywords: ["maths","mathematics"], reply: "Basic knowledge of Mathematics is helpful but not mandatory for BCA." },  
+      { keywords: ["languages", "programming"], reply: "We teach C, C++, Java, Python, HTML, JavaScript, SQL, and more." },  
+      { keywords: ["extracurricular", "seminar","event", "conclave"], reply: "We conduct seminars, conclaves, and useful sessions that support student growth and knowledge." },  
+      { keywords: ["timing", "college time"], reply: "College timing for BCA is from 8:30 AM to 1:30 PM." },  
+      { keywords: ["coat", "lab dress","coat suit"], reply: "Students must wear coat suit during lab sessions." },  
+      { keywords: ["shawl"], reply: "Shawl must be pinned on both sides as part of proper dress code." },  
+      { keywords: ["scope", "opportunity"], reply: "BCA has great scope in IT sector. You can become a developer, tester, analyst, or pursue MCA." },  
+      { keywords: ["benefits"], reply: "BCA offers practical skills in computers and opens career opportunities in IT and software." },  
+      { keywords: ["eligibility"], reply: "You should have passed 12th standard with Computer Science or Mathematics." },  
+      { keywords: ["hostel"], reply: "Yes, hostel facilities are available for girls." },  
+      { keywords: ["scholarship"], reply: "Scholarships are available based on eligibility. Please contact the college office." },  
+      { keywords: ["attendance"], reply: "Minimum 75% attendance is mandatory to appear for semester exams." },  
+      { keywords: ["rules", "regulations"], reply: "College Rules:<br>1. No mobile phone usage in classrooms.<br>2. Proper dress code must be followed.<br>3. ID card should be worn daily.<br>4. No latecomers allowed.<br>5. Discipline must be maintained at all times." },  
+      { keywords: ["dress code"], reply: "Proper dress code must be followed. Shawl should be pinned on both sides." },  
+      { keywords: ["mobile","phone"], reply: "Mobile phones are strictly not allowed inside classrooms." },  
+      { keywords: ["contact"], reply: "Please contact the college office or visit <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> for official details." },  
+      { keywords: ["swayam"], reply: "SWAYAM is a national online course platform. BCA students can enroll in SWAYAM courses as guided by the college." },  
+      { keywords: ["locf"], reply: "Our college follows the LOCF pattern (Learning Outcome Based Curriculum Framework) focusing on knowledge, skills, and values." },  
+      { keywords: ["internal", "quiz", "exam","semester"], reply: "Each semester includes 2 internal tests, 2 quizzes, and 1 seminar (25 marks total). Final exam carries 75 marks. Total: 100 marks." },  
+      { keywords: ["credit", "credits","credit points"], reply: "Each course in the BCA program has a specific number of credit points. These contribute to your CGPA every semester." },  
+      { keywords: ["hcc", "holy cross college", "about college"], reply: "Holy Cross College (Autonomous), Tiruchirapalli, is a prestigious institution for women. It offers a wide range of undergraduate and postgraduate programs, recognized for academic excellence, discipline, and holistic education. Visit <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> for more." },  
+      { keywords: ["bca"], reply: "BCA stands for Bachelor of Computer Applications. It is a 3-year undergraduate course." },  
+      { keywords: ["library"], reply: "Our college library is well-stocked with books, journals, and reference materials. It also has a good internet connection for research and online resources." },  
+      { keywords: ["internet connection","library internet","internet"], reply: "Yes, both the labs and library have high-speed internet connectivity for student use." },  
+      { keywords: ["ok","okay","tq","thank you"], reply: "You're Welcome.Iam here to assist you." },  
+      { keywords: ["hi","hello","hai","hii"], reply: `Welcome to chatbot. You can ask:<br>  
+- bca<br>  
+- duration<br>  
+- subjects<br>  
+- placement<br>  
+- faculty<br>  
+- facilities<br>  
+- internship<br>  
+- aicte<br>  
+- fee structure<br>  
+- college website<br>  
+- library<br>  
+- internet connection<br>  
+- extracurricular<br>  
+- seminar<br>  
+- conclave<br>  
+- college time<br>  
+- coat suit<br>  
+- scope<br>  
+- opportunity<br>  
+- benefits<br>  
+- eligibility<br>  
+- hostel<br>  
+- scholarship<br>  
+- attendance<br>  
+- rules and regulations<br>  
+- dress code<br>  
+- mobile<br>  
+- contact<br>  
+- swayam<br>  
+- locf<br>  
+- internal<br>  
+- quiz<br>  
+- exam<br>  
+- credit points<br>  
+Related questions.`  
+      }  
+    ];  
+  
+    // Quick Reply Function  
+    function quickReply(topic) {  
+      let reply = "";  
+      if (topic === "duration") reply = "The BCA course duration is 3 years, divided into 6 semesters.";  
+      if (topic === "scholarship") reply = "Scholarships are available based on eligibility. Please contact the college office.";  
+      if (topic === "exam") reply = "Each semester includes 2 internal tests, 2 quizzes, and 1 seminar (25 marks). Final exam carries 75 marks. Total: 100 marks.";  
+      if (topic === "placement") reply = "Yes, our college offers good placement opportunities for BCA students.";  
+  
+      appendMessage(topic, "user");  
+      setTimeout(() => appendMessage(reply, "bot"), 500);  
+    }  
+  
+    function sendMessage() {  
+      const userText = input.value.trim().toLowerCase();  
+      if (!userText) return;  
+  
+      appendMessage(userText, "user");  
+      input.value = "";  
+  
+      let response = "I am not aware of it. Please visit the college website <a href='https://hcctrichy.ac.in' target='_blank'>Holy Cross College Website</a> or contact the college office for more information.";  
+  
+      for (let item of responses) {  
+        if (item.keywords.some(keyword => userText.includes(keyword))) {  
+          response = item.reply;  
+          break;  
+        }  
+      }  
+  
+      setTimeout(() => appendMessage(response, "bot"), 500);  
+    }  
+  
+    function appendMessage(message, sender) {  
+      const msgDiv = document.createElement("div");  
+      msgDiv.className = `chat-message ${sender}`;  
+  
+      // Get current time in hh:mm AM/PM  
+      const now = new Date();  
+      let hours = now.getHours();  
+      let minutes = now.getMinutes().toString().padStart(2, '0');  
+      const ampm = hours >= 12 ? "PM" : "AM";  
+      hours = hours % 12 || 12;  
+      const timeString = `${hours}:${minutes} ${ampm}`;  
+  
+      msgDiv.innerHTML = `  
+        <div>${message}</div>  
+        <span class="timestamp">${timeString}</span>  
+      `;  
+  
+      chatBox.appendChild(msgDiv);  
+      chatBox.scrollTop = chatBox.scrollHeight;  
+    }  
+  
+    /* Motivational quotes */  
+    const quotes = [  
+      "Every step counts 👣",  
+      "Don’t fear failure, learn from it ❌",  
+      "Hard work is the ladder 🪜",  
+      "Believe in yourself ✨",  
+      "Small progress is still progress 📈",  
+      "Dreams don’t work unless you do 💪",  
+      "Success is yours! 🎓"  
+    ];  
+    let i = 0;  
+    const quoteBox = document.getElementById("quoteBox");  
+    setTimeout(() => {  
+      const interval = setInterval(() => {  
+        quoteBox.innerText = quotes[i];  
+        quoteBox.style.opacity = 1;  
+        i++;  
+        if (i >= quotes.length) clearInterval(interval);  
+      }, 3000);  
+    }, 2000);   
+  </script>  </body>  
 </html>
