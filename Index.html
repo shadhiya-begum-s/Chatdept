@@ -195,7 +195,7 @@ a {
   background: url('https://i.postimg.cc/zfd03B1N/images.png') no-repeat center/cover;  
   bottom: 0;  
   left: 15px;  
-  animation: climb 12s forwards;  
+  animation: climb 20s forwards;  
 }  
 
 @keyframes climb {  
@@ -438,24 +438,45 @@ Related questions.`
     }  
   
     /* Motivational quotes */  
-    const quotes = [  
-      "Every step counts 👣",  
-      "Don’t fear failure, learn from it ❌",  
-      "Hard work is the ladder 🪜",  
-      "Believe in yourself ✨",  
-      "Small progress is still progress 📈",  
-      "Dreams don’t work unless you do 💪",  
-      "Success is yours! 🎓"  
-    ];  
-    let i = 0;  
-    const quoteBox = document.getElementById("quoteBox");  
-    setTimeout(() => {  
-      const interval = setInterval(() => {  
-        quoteBox.innerText = quotes[i];  
-        quoteBox.style.opacity = 1;  
-        i++;  
-        if (i >= quotes.length) clearInterval(interval);  
-      }, 3000);  
-    }, 2000);   
+    const quoteBox = document.getElementById("quoteBox");
+const quotes = [
+  "Every step counts 👣",
+  "Don’t fear failure, learn from it ❌",
+  "Hard work is the ladder 🪜",
+  "Believe in yourself ✨",
+  "Small progress is still progress 📈",
+  "Dreams don’t work unless you do 💪",
+  "Keep going, never give up 💪",
+  "Stay focused and determined 🎯",
+  "Your effort defines your future 🌟",
+  "Success is yours! 🎓"
+];
+
+// Show first quote
+let index = 0;
+quoteBox.innerText = quotes[index];
+quoteBox.style.opacity = 1;
+index++;
+
+// Time each quote stays visible (in ms)
+const displayTime = 2500; // 2.5 seconds per quote
+
+const quoteInterval = setInterval(() => {
+  if (index >= quotes.length) {
+    clearInterval(quoteInterval);
+    return;
+  }
+
+  // Fade out
+  quoteBox.style.opacity = 0;
+
+  setTimeout(() => {
+    // Change text & fade in
+    quoteBox.innerText = quotes[index];
+    quoteBox.style.opacity = 1;
+    index++;
+  }, 600); // fade-out duration (0.6s)
+
+}, displayTime);
   </script>  </body>  
 </html>
