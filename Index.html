@@ -364,16 +364,36 @@ Related questions.`
     ];  
   
     // Quick Reply Function  
-    function quickReply(topic) {  
-      let reply = "";  
-      if (topic === "duration") reply = "The BCA course duration is 3 years, divided into 6 semesters.";  
-      if (topic === "scholarship") reply = "Scholarships are available based on eligibility. Please contact the college office.";  
-      if (topic === "exam") reply = "Each semester includes 2 internal tests, 2 quizzes, and 1 seminar (25 marks). Final exam carries 75 marks. Total: 100 marks.";  
-      if (topic === "placement") reply = "Yes, our college offers good placement opportunities for BCA students.";  
-  
-      appendMessage(topic, "user");  
-      setTimeout(() => appendMessage(reply, "bot"), 500);  
-    }  
+    function quickReply(topic) {
+  let question = "";
+  let reply = "";
+
+  if (topic === "duration") {
+    question = "What is the duration of the BCA course?";
+    reply = "The BCA course duration is 3 years, divided into 6 semesters.";
+  }
+
+  if (topic === "scholarship") {
+    question = "Is there any scholarship available?";
+    reply = "Scholarships are available based on eligibility. Please contact the college office.";
+  }
+
+  if (topic === "exam") {
+    question = "What is the exam pattern for BCA?";
+    reply = "Each semester includes 2 internal tests, 2 quizzes, and 1 seminar (25 marks). Final exam carries 75 marks. Total: 100 marks.";
+  }
+
+  if (topic === "placement") {
+    question = "Does the college provide placement for BCA students?";
+    reply = "Yes, our college offers good placement opportunities for BCA students.";
+  }
+
+  // Show the user’s question
+  appendMessage(question, "user");
+
+  // Show the bot’s answer after a short delay
+  setTimeout(() => appendMessage(reply, "bot"), 500);
+    }
   
     function sendMessage() {  
       const userText = input.value.trim().toLowerCase();  
